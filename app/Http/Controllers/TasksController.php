@@ -35,15 +35,19 @@ class TasksController extends Controller
     
      public function create()
     {
-        $message = new Message;
+        $task = new Task;
 
-        return view('messages.create', [
-            'message' => $message,
+        return view('tasks.create', [
+            'task' => $task,
         ]);
     }
     
      public function store(Request $request)
     {
+         $this->validate($request, [
+            'content' => 'required|max:191',
+        ]);
+        
         $task = new Task;
         $task->content = $request->content;
         $task->save();
