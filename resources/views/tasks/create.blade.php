@@ -6,9 +6,14 @@
 
     {!! Form::model($task, ['route' => 'tasks.store']) !!}
 
+        {!! Form::label('title', 'タイトル:') !!}
+        {!! Form::text('title') !!}
+
         {!! Form::label('content', 'メッセージ:') !!}
-        {!! Form::label('status', 'ステータス:') !!}
         {!! Form::text('content') !!}
+
+        {!! Form::label('status', 'ステータス:') !!}
+        {!! Form::text('status') !!}
 
         {!! Form::submit('投稿') !!}
 
