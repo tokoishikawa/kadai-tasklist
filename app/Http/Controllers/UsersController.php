@@ -24,10 +24,10 @@ class UsersController extends Controller
         
         $data = [
             'user' => $user,
-            'microposts' => $tasks,
+            'tasks' => $tasks,
         ];
 
-        $data += $this->counts($user);
+       // $data += $this->counts($user);
 
         return view('users.show', $data);
     }
