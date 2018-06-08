@@ -14,10 +14,12 @@ class CreateKadaiTasklistTable extends Migration
     public function up()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->index();            
-            $table->foreign('user_id')->references('id')->on('users');
-        });
-    }
+            $table->increments('id');
+            $table->integer('user_id')->unsigned()->index();
+            $table->string('content');
+            $table->timestamps();
+            });  
+        }
 
     /**
      * Reverse the migrations.
@@ -26,8 +28,6 @@ class CreateKadaiTasklistTable extends Migration
      */
     public function down()
     {
-        Schema::table('tasks', function (Blueprint $table) {
-             $table->dropColumn('app_id');
-        });
+        Schema::dropIfExists('tasks');
     }
 }
