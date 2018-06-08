@@ -37,16 +37,28 @@ class TasksController extends Controller
     public function show($id)
     
     {
+        if(\Auth::check())
+        {
         $task = Task::find($id);
         $user = \Auth::user();
-        if($user->id == $task->user_id ){
-                return view('tasks.show', [
-                    'task' => $task,
-                ]);
-        } else {
+        $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+        
+        if (\Auth::user()->id === $task->user_id) {
+        return view('tasks.show', [
+            'tasks' => $tasks,
+            'task' => $task,
+            'user' => $user,
+        ]);
+        }
+        else{
+       
             return redirect('/');
         }
+       }
+    else{
+        return view ('welcome');
     }
+}
     
      public function create()
     {
@@ -61,7 +73,6 @@ class TasksController extends Controller
     {
          $this->validate($request, [
              'status' => 'required|max:191', 
-              'status' => 'required|max:10',
             'content' => 'required|max:191',
         ]);
         
@@ -75,19 +86,29 @@ class TasksController extends Controller
     }
     
      public function edit($id)
+    
     {
+        if(\Auth::check())
+        {
         $task = Task::find($id);
-        $user = \Auth::user(); 
+        $user = \Auth::user();
+        $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
         
-         if($user->id == $task->user_id ){
-                return view('tasks.edit', [
-                    'task' => $task,
-                ]);
-         } else {
-             return redirect('/');
-             
-         }
+        if (\Auth::user()->id === $task->user_id) {
+        return view('tasks.edit', [
+            'tasks' => $tasks,
+            'task' => $task,
+            'user' => $user,
+        ]);
+        }
+        else{
+           return redirect('/');
+            }
+        }
+    else{
+        return view ('welcome');
     }
+}
 
      public function update(Request $request, $id)
     {
@@ -109,7 +130,7 @@ class TasksController extends Controller
     
      public function destroy($id)
     {
-       $task = \App\Tasks::find($id);
+       $task = \App\Task::find($id);
 
         if (\Auth::user()->id === $task->user_id) {
             $task->delete();

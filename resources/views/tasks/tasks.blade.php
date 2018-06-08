@@ -11,6 +11,14 @@
             </div>
             <div>
                 <p>{!! nl2br(e($task->content)) !!} {!! nl2br(e($task->status)) !!} {!! link_to_route('tasks.show', $task->id, ['id' => $task->id]) !!}  </p>
+                
+                @if (Auth::user()->id == $task->user_id)
+                    {!! Form::open(['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
+                        {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
+                       {!! link_to_route('tasks.edit', 'Edit', ['id' => $task->id], ['class' => 'btn btn-info']) !!}
+                      
+                    {!! Form::close() !!}
+                @endif
             </div>
         </div>
     </li>
